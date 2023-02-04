@@ -1,0 +1,13 @@
+server.port=8081
+
+server.servlet.context-path=/sts
+server.servlet.encoding.charset=UTF-8
+
+# ??? Hidden-Method
+spring.mvc.hiddenmethod.filter.enabled=true
+
+# properties ???
+spring.messages.basename=base,errors
+spring.messages.encoding=UTF-8
+
+# application.properties & application.yml ??????, ????.
