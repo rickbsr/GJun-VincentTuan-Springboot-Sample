@@ -19,8 +19,8 @@ public class MessageController {
         userJohn.put("age", "18");
 
         Map<String, String> userMary = new LinkedHashMap<>();
-        userJohn.put("name", "Mary");
-        userJohn.put("age", "19");
+        userMary.put("name", "Mary");
+        userMary.put("age", "19");
 
         users.add(userJohn);
         users.add(userMary);
@@ -44,6 +44,8 @@ public class MessageController {
         model.addAttribute("username", "Mary");
         model.addAttribute("nickname", "<h1>Baby</h1>");
         model.addAttribute("scores", Arrays.asList(100, 40, 70, 55));
+
+        model.addAttribute("users", users);
         return "message";
     }
 }

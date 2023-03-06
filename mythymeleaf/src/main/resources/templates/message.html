@@ -7,75 +7,91 @@
 <body>
 <div>ABC</div>
 
-<div>
-    文字取代：
-    <div th:text="我是Thymeleaf">ABC</div>
+文字取代：
+<div th:text="我是Thymeleaf">ABC</div>
 
-    <!-- 若屬性的值含有空格, 需要增加單引號 -->
-    <div th:text="'我是 Thymeleaf(有空格)'">A B C</div>
+<!-- 若屬性的值含有空格, 需要增加單引號 -->
+<div th:text="'我是 Thymeleaf(有空格)'">A B C</div>
+
+本地變數：
+<div th:with="bmi=(60/((170/100) * (170/100)))">
+    <div th:text="${bmi}">0.00</div>
 </div>
 
+
+圖片：
 <div>
-    本地變數：
-    <div th:with="bmi=(60/((170/100) * (170/100)))">
-        <div th:text="${bmi}">0.00</div>
-    </div>
+    <img th:src="@{/images/person.png}" width="200"
+         src="https://spring.io/images/logo-spring-tools-4-c5e3ea301ba9d85444ef244449335be3.svg" alt="none"/>
 </div>
 
-<div>
-    圖片：
-    <div>
-        <img th:src="@{/images/person.png}" width="300"
-             src="https://spring.io/images/projects/spring-edf462fec682b9d48cf628eaf9e19521.svg" alt="none"/>
-    </div>
-</div>
+取得 Model 變數：
+<div th:text="${username}">username</div>
+<div th:text="${nickname}">nickname</div>
+<!-- th:utext, 是讓 Html 來解釋, 例如文字為<h1>Baby</h1>, 用 th:text 就會顯示一般大小的 <h1>Baby</h1>, 而用 th:utext 就會顯示標題大小的 baby. -->
+<div th:utext="${nickname}">nickname</div>
+<div th:text="${scores}">nickname</div>
 
-<div>
-    取得 Model 變數：
-    <div th:text="${username}">username</div>
-    <div th:text="${nickname}">nickname</div>
-    <!-- th:utext, 是讓 Html 來解釋, 例如文字為<h1>Baby</h1>, 用 th:text 就會顯示一般大小的 <h1>Baby</h1>, 而用 th:utext 就會顯示標題大小的 baby. -->
-    <div th:utext="${nickname}">nickname</div>
-    <div th:text="${scores}">nickname</div>
+資料筆數:
+<div th:text="${#lists.size(scores)}">0</div>
 
-    資料筆數:
-    <div th:text="${#lists.size(scores)}">0</div>
-</div>
+<!-- 內聯函式即不通過標籤來顯示的變數, 它可以放於 JavaScript 中使用. -->
+內聯函式：
+分數：[[${scores}]] <p/>
 
-<div>
-    <!-- 內聯函式即不通過標籤來顯示的變數, 它可以放於 JavaScript 中使用. -->
-    內聯函式：
-    分數：[[${scores}]] <p/>
+<script>
+    var scores = [[ ${scores}]];
+    console.log(scores)
+    console.log(scores.length)
+    console.log(scores[1])
+</script>
 
-    <script>
-        var scores = [[ ${scores}]];
-        console.log(scores)
-        console.log(scores.length)
-        console.log(scores[1])
-    </script>
-</div>
 
-<div>
-    表格
-    <table border="1">
-        <tr th:each="score, scorestat : ${scores}">
-            <td th:text="${scorestat.index + 1}">0</td>
-            <td th:text="${score}">0</td>
-            <!-- 三元表達式 -->
-            <td th:text="(${score>=60}) ? 'V' : ''">V</td>
+表格
+<table border="1" width="50%">
+    <tr th:each="score, scorestat : ${scores}">
+        <td th:text="${scorestat.index + 1}">0</td>
+        <td th:text="${score}">0</td>
+        <!-- 三元表達式 -->
+        <td th:text="(${score>=60}) ? 'V' : ''">V</td>
 
-            <!-- if & unless 標籤 -->
-            <td th:if="${score>=60}">Pass</td>
-            <td th:unless="${score>=60}">Fail</td>
+        <!-- if & unless 標籤 -->
+        <td th:if="${score>=60}">Pass</td>
+        <td th:unless="${score>=60}">Fail</td>
 
-            <!-- switch 標籤 -->
-            <td th:switch="${score>=60}">
-                <span th:case="true">及格</span>
-                <span th:case="*">不及格</span>
-            </td>
-        </tr>
-    </table>
-</div>
+        <!-- switch 標籤 -->
+        <td th:switch="${score>=60}">
+            <span th:case="true">及格</span>
+            <span th:case="*">不及格</span>
+        </td>
+    </tr>
+</table>
+
+Users
+<table border="1" width="50%">
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+    </tr>
+    <tr th:each="entry : ${users}">
+        <td th:each="x : ${entry}">
+            [[${x.value}]]
+        </td>
+    </tr>
+</table>
+
+Users
+<table border="1" width="50%">
+    <tr>
+        <th>Name</th>
+        <th>Age</th>
+    </tr>
+    <tr th:each="entry : ${users}">
+        <td th:text="${entry.name}"></td>
+        <td th:text="${entry.age}"></td>
+    </tr>
+</table>
+
 </body>
 </html>
 
